@@ -1,14 +1,30 @@
 import * as Yup from 'yup';
 import Incident from '../models/Incident';
+import User from '../models/User';
 
 class IncidentsController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    let { page = 1 } = req.query;
+
+    if (page < 1) {
+      page = 1;
+    }
+
+    const count = await Incident.count();
+
+    res.header('X-Total-Count', count);
 
     const incidents = await Incident.findAll({
       order: [['createdAt', 'DESC']],
       limit: 5,
       offset: (page - 1) * 5,
+      include: [
+        {
+          model: User,
+          as: 'ong',
+          attributes: ['id', 'name', 'email', 'whatsapp', 'address'],
+        },
+      ],
     });
 
     return res.json(incidents);

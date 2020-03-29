@@ -19,7 +19,7 @@ class Incidents extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.User, { foreignKey: 'ong_id' });
+    this.belongsTo(models.User, { foreignKey: 'ong_id', as: 'ong' });
   }
 }
 
