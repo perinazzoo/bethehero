@@ -2,34 +2,33 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 
-import { Container } from './styles';
-
 import logo from '../../assets/logo.svg';
 
-export default function SignUp() {
+import { Container } from './styles';
+
+export default function NewIncident() {
   return (
     <Container>
       <div>
         <section>
           <img src={logo} alt="Logo do Be The Hero" />
 
-          <h1>Cadastro</h1>
+          <h1>Cadastrar novo caso</h1>
           <p>
-            Faça seu cadastro, entre na plataforma e ajude pessoas a encontrarem
-            os casos da sua ONG.
+            Descreva o caso detalhadamente para encontrar um herói para resolver
+            isso.
           </p>
 
-          <Link className="back-link" to="/">
+          <Link className="back-link" to="/dashboard">
             <FiArrowLeft color="#e02041" size={16} />
-            Já tenho uma conta
+            Voltar
           </Link>
         </section>
 
         <form>
-          <input placeholder="Nome da ONG" />
-          <input type="email" placeholder="E-mail" />
-          <input placeholder="WhatsApp" />
-          <input placeholder="Endereço" />
+          <input placeholder="Titulo do caso" />
+          <textarea placeholder="Descrição" />
+          <input placeholder="Valor em Reais" />
 
           <button type="submit" className="button">
             Cadastrar

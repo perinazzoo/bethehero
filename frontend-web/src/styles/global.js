@@ -34,10 +34,30 @@ export default createGlobalStyle`
     background-color: #191919;
     border-radius: 8px;
     padding: 0 24px;
+
+    & + input, & + textarea {
+      margin-top: 8px;
+    }
   }
 
-  form input + input {
-    margin-top: 8px;
+  form textarea {
+    width: 100%;
+    min-height: 50px;
+    max-height: 250px;
+    color: #efefef;
+    border: 1px solid #41414d;
+    background-color: #191919;
+    border-radius: 8px;
+    padding: 16px 24px;
+    line-height: 24px;
+    resize: vertical;
+    &::-webkit-scrollbar {
+    display: none;
+   }
+
+    & + input {
+      margin-top: 4px;
+    }
   }
 
   .button {
