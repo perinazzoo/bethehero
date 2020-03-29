@@ -38,8 +38,6 @@ class UserController {
   }
 
   async update(req, res) {
-    console.log(req.userId);
-
     return res.json({ ok: true });
   }
 }
