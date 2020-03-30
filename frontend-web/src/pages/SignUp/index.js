@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Form, Input } from '@rocketseat/unform';
+import { toast } from 'react-toastify';
 
 import { isAuthenticated } from '../../services/auth';
+import api from '../../services/api';
 
 import { Container } from './styles';
 
@@ -20,7 +22,29 @@ export default function SignUp() {
       }
     })();
   }, [history]);
-  async function handleSubmit(data) { }
+  async function handleSubmit({
+    name,
+    email,
+    password,
+    confirmPassword,
+    whatsapp,
+    address,
+  }) {
+    try {
+      await api.post('/users', {
+        name,
+        email,
+        password,
+        confirmPassword,
+        whatsapp,
+        address,
+      });
+      history.push('/');
+      toast(`yayy! Seja bem-vinda ${name} 🦄`);
+    } catch (err) {
+      toast.error('Parece que algo deu errado 😕, por favor, tente novamente');
+    }
+  }
 
   return (
     <Container>
