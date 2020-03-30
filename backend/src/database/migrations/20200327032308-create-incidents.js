@@ -14,7 +14,6 @@ module.exports = {
       description: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       value: {
         type: Sequelize.DECIMAL,

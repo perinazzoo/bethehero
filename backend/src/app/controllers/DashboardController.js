@@ -1,9 +1,12 @@
+import { Op } from 'sequelize';
 import Incident from '../models/Incident';
 
 class DashboardController {
   async index(req, res) {
     const incidents = await Incident.findAll({
-      where: { ong_id: req.userId },
+      where: {
+        [Op.and]: [{ ong_id: req.userId }, { deleted_at: null }],
+      },
       order: [['createdAt', 'DESC']],
     });
 

@@ -80,7 +80,7 @@ class IncidentsController {
 
     await incidentExists.save();
 
-    return res.status(204).use();
+    return res.status(204).json();
   }
 }
 
