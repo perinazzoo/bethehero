@@ -40,11 +40,11 @@ export default function Dashboard() {
   async function handleDelete(id) {
     try {
       await api.delete(`incidents/${id}`);
-      toast.success('🦄 Caso deletado com sucesso!');
+      toast('🦄 Caso deletado com sucesso!');
 
       setIncidents(incidents.filter((i) => i.id !== id));
     } catch (err) {
-      toast.error('😕 Algo deu errado, tente novamente.');
+      toast.error('Parece que algo deu errado, por favor, tente novamente 😕');
     }
   }
 

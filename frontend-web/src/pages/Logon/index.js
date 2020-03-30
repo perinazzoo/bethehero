@@ -36,7 +36,7 @@ export default function Logon() {
 
       history.push('/dashboard');
     } catch (err) {
-      toast.error('Parece que algo deu errado :(');
+      toast.error('Parece que algo deu errado, por favor, tente novamente 😕');
     }
   }
 

@@ -42,7 +42,7 @@ export default function SignUp() {
       history.push('/');
       toast(`yayy! Seja bem-vinda ${name} 🦄`);
     } catch (err) {
-      toast.error('Parece que algo deu errado 😕, por favor, tente novamente');
+      toast.error('Parece que algo deu errado, por favor, tente novamente 😕');
     }
   }
 

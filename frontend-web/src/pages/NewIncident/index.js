@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import { Form, Input, Textarea } from '@rocketseat/unform';
 
 import { isAuthenticated } from '../../services/auth';
+import api from '../../services/api';
 import logo from '../../assets/logo.svg';
 
 import { Container } from './styles';
@@ -19,6 +21,20 @@ export default function NewIncident() {
       }
     })();
   }, [history]);
+
+  async function handleSubmit({ title, description, value }) {
+    try {
+      await api.post('/incidents', {
+        title,
+        description,
+        value,
+      });
+      history.push('/dashboard');
+      toast(`Caso "${title}" criado com sucesso! 🦄`);
+    } catch (err) {
+      toast.error('Parece que algo deu errado, por favor, tente novamente 😕');
+    }
+  }
 
   return (
     <Container>
@@ -38,15 +54,15 @@ export default function NewIncident() {
           </Link>
         </section>
 
-        <form>
-          <input placeholder="Titulo do caso" />
-          <textarea placeholder="Descrição" />
-          <input placeholder="Valor em Reais" />
+        <Form onSubmit={handleSubmit}>
+          <Input name="title" placeholder="Titulo do caso" />
+          <Textarea name="description" placeholder="Descrição" />
+          <Input name="value" placeholder="Valor em Reais" />
 
           <button type="submit" className="button">
             Cadastrar
           </button>
-        </form>
+        </Form>
       </div>
     </Container>
   );
