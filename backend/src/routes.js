@@ -3,6 +3,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import IncidentController from './app/controllers/IncidentController';
 import DashboardController from './app/controllers/DashboardController';
+import TestController from './app/controllers/TestController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -13,6 +14,8 @@ routes.post('/sessions', SessionController.store);
 routes.get('/incidents', IncidentController.index);
 
 routes.use(authMiddleware);
+
+routes.get('/test', TestController.index);
 
 routes.get('/dashboard', DashboardController.index);
 routes.post('/incidents', IncidentController.store);

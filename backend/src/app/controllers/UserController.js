@@ -8,7 +8,8 @@ class UserController {
       name: Yup.string().required(),
       email: Yup.string().email().required(),
       password: Yup.string().required().min(6),
-      whatsapp: Yup.string().required(),
+      confirmPassword: Yup.string().oneOf([Yup.ref('password')]),
+      whatsapp: Yup.number().required(),
       address: Yup.string().required(),
     });
 
