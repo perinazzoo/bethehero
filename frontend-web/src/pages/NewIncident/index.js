@@ -1,12 +1,25 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 
+import { isAuthenticated } from '../../services/auth';
 import logo from '../../assets/logo.svg';
 
 import { Container } from './styles';
 
 export default function NewIncident() {
+  const history = useHistory();
+
+  useEffect(() => {
+    (async () => {
+      if (!(await isAuthenticated())) {
+        history.push('/');
+        toast.error('😔 Sua sessão expirou, por favor, entre novamente.');
+      }
+    })();
+  }, [history]);
+
   return (
     <Container>
       <div>

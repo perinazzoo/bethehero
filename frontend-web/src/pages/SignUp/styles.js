@@ -40,6 +40,19 @@ export const Container = styled.div`
     form {
       width: 100%;
       max-width: 450px;
+
+      > div {
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        margin: 8px 0;
+
+        > input + input {
+          margin: 0;
+        }
+      }
     }
   }
 `;

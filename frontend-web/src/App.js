@@ -1,4 +1,5 @@
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import Routes from './routes';
 
@@ -9,6 +10,7 @@ function App() {
     <>
       <GlobalStyle />
       <Routes />
+      <ToastContainer pauseOnFocusLos={false} autoClose={3000} />
     </>
   );
 }

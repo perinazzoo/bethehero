@@ -11,7 +11,7 @@ export const Container = styled.div`
   justify-content: space-between;
 `;
 
-export const Form = styled.section`
+export const FormLogon = styled.section`
   width: 100%;
   max-width: 350px;
   margin-right: 30px;

@@ -1,12 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import { Form, Input } from '@rocketseat/unform';
+
+import { isAuthenticated } from '../../services/auth';
 
 import { Container } from './styles';
 
 import logo from '../../assets/logo.svg';
 
 export default function SignUp() {
+  const history = useHistory();
+  useEffect(() => {
+    (async () => {
+      const isAuth = await isAuthenticated();
+
+      if (isAuth) {
+        history.push('/dashboard');
+      }
+    })();
+  }, [history]);
+  async function handleSubmit(data) { }
+
   return (
     <Container>
       <div>
@@ -25,16 +40,24 @@ export default function SignUp() {
           </Link>
         </section>
 
-        <form>
-          <input placeholder="Nome da ONG" />
-          <input type="email" placeholder="E-mail" />
-          <input placeholder="WhatsApp" />
-          <input placeholder="Endereço" />
+        <Form onSubmit={handleSubmit}>
+          <Input name="name" placeholder="Nome da ONG" />
+          <Input name="email" type="email" placeholder="E-mail" />
+          <div>
+            <Input name="password" type="password" placeholder="Senha" />
+            <Input
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirmar senha"
+            />
+          </div>
+          <Input name="whatsapp" placeholder="WhatsApp" />
+          <Input name="address" placeholder="Endereço" />
 
           <button type="submit" className="button">
             Cadastrar
           </button>
-        </form>
+        </Form>
       </div>
     </Container>
   );

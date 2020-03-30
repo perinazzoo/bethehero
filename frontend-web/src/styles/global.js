@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 export default createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap');
@@ -99,4 +100,8 @@ export default createGlobalStyle`
       opacity: 0.8;
     }
   }
+
+  .Toastify__toast--default {
+    color: #333;
+ }
 `;
