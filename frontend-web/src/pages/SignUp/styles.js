@@ -42,15 +42,15 @@ export const Container = styled.div`
       max-width: 450px;
 
       > div {
+        width: 100%;
         padding: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
         margin: 8px 0;
 
         > input + input {
-          margin: 0;
+          margin-top: 0;
         }
       }
     }
