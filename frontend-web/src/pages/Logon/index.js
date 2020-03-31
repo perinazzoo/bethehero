@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiLogIn } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
@@ -14,14 +14,17 @@ import heroesImg from '../../assets/heroes.png';
 
 export default function Logon() {
   const history = useHistory();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       const isAuth = await isAuthenticated();
 
       if (isAuth) {
-        history.push('/dashboard');
+        return history.push('/dashboard');
       }
+
+      return setLoading(false);
     })();
   }, [history]);
 
@@ -42,26 +45,30 @@ export default function Logon() {
 
   return (
     <Container>
-      <FormLogon>
-        <img src={logo} alt="Logo do Be The Hero" />
+      {!loading && (
+        <>
+          <FormLogon>
+            <img src={logo} alt="Logo do Be The Hero" />
 
-        <Form onSubmit={handleSubmit}>
-          <h1>Faça seu logon</h1>
+            <Form onSubmit={handleSubmit}>
+              <h1>Faça seu logon</h1>
 
-          <Input name="email" type="text" placeholder="Seu e-mail" />
-          <Input name="password" type="password" placeholder="Sua senha" />
-          <button className="button" type="submit">
-            Entrar
-          </button>
+              <Input name="email" type="text" placeholder="Seu e-mail" />
+              <Input name="password" type="password" placeholder="Sua senha" />
+              <button className="button" type="submit">
+                Entrar
+              </button>
 
-          <Link className="back-link" to="/register">
-            <FiLogIn color="#e02041" size={16} />
-            Não tenho cadastro
-          </Link>
-        </Form>
-      </FormLogon>
+              <Link className="back-link" to="/register">
+                <FiLogIn color="#e02041" size={16} />
+                Não tenho cadastro
+              </Link>
+            </Form>
+          </FormLogon>
 
-      <img src={heroesImg} alt="Heróis" />
+          <img src={heroesImg} alt="Heróis" />
+        </>
+      )}
     </Container>
   );
 }
