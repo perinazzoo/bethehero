@@ -104,4 +104,10 @@ export default createGlobalStyle`
   .Toastify__toast--default {
     color: #333;
  }
+
+ form span {
+      color: #e02041;
+      font-size: 13px;
+      margin-left: 5px;
+    }
 `;

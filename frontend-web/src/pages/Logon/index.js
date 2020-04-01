@@ -3,6 +3,7 @@ import { FiLogIn } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 import { isAuthenticated } from '../../services/auth';
 import api from '../../services/api';
@@ -11,6 +12,13 @@ import { Container, FormLogon } from './styles';
 
 import logo from '../../assets/logo.svg';
 import heroesImg from '../../assets/heroes.png';
+
+const schema = Yup.object().shape({
+  email: Yup.string()
+    .email('Insira um email válido.')
+    .required('O campo email é obrigatório.'),
+  password: Yup.string().required('O campo senha é obrigatório.'),
+});
 
 export default function Logon() {
   const history = useHistory();
@@ -50,7 +58,7 @@ export default function Logon() {
           <FormLogon>
             <img src={logo} alt="Logo do Be The Hero" />
 
-            <Form onSubmit={handleSubmit}>
+            <Form schema={schema} onSubmit={handleSubmit}>
               <h1>Faça seu logon</h1>
 
               <Input name="email" type="text" placeholder="Seu e-mail" />

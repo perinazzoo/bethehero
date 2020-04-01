@@ -45,9 +45,16 @@ export const Container = styled.div`
         width: 100%;
         padding: 0;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 0.9fr 1.1fr;
         gap: 8px;
         margin: 8px 0;
+
+        > div {
+          display: flex;
+          flex-direction: column;
+          padding: 0;
+          align-items: flex-start;
+        }
 
         > input + input {
           margin-top: 0;

@@ -3,12 +3,19 @@ import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import { Form, Input, Textarea } from '@rocketseat/unform';
+import * as Yup from 'yup';
 
 import { isAuthenticated } from '../../services/auth';
 import api from '../../services/api';
 import logo from '../../assets/logo.svg';
 
 import { Container } from './styles';
+
+const schema = Yup.object().shape({
+  title: Yup.string().required('Você precisa inserir um titulo'),
+  description: Yup.string().required('Você precisa inserir uma descrição'),
+  value: Yup.string().required('Insira um valor, mesmo que seja 0'),
+});
 
 export default function NewIncident() {
   const history = useHistory();
@@ -60,7 +67,7 @@ export default function NewIncident() {
             </Link>
           </section>
 
-          <Form onSubmit={handleSubmit}>
+          <Form schema={schema} onSubmit={handleSubmit}>
             <Input name="title" placeholder="Titulo do caso" />
             <Textarea name="description" placeholder="Descrição" />
             <Input name="value" placeholder="Valor em Reais" />

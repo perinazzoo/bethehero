@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 import { isAuthenticated } from '../../services/auth';
 import api from '../../services/api';
@@ -10,6 +11,21 @@ import api from '../../services/api';
 import { Container } from './styles';
 
 import logo from '../../assets/logo.svg';
+
+const schema = Yup.object().shape({
+  name: Yup.string().required('Preencha o campo nome'),
+  email: Yup.string()
+    .email('Insira um email válido.')
+    .required('Preencha o campo email'),
+  password: Yup.string()
+    .min(6, 'A senha precisa ter pelo menos 6 digitos')
+    .required('Preencha o campo senha.'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password')], 'As senhas não conferem')
+    .required('Preencha o campo confirmação.'),
+  whatsapp: Yup.string().required('Preencha o campo WhatsApp.'),
+  address: Yup.string().required('Preencha o campo endereço'),
+});
 
 export default function SignUp() {
   const history = useHistory();
@@ -70,16 +86,20 @@ export default function SignUp() {
             </Link>
           </section>
 
-          <Form onSubmit={handleSubmit}>
+          <Form schema={schema} onSubmit={handleSubmit}>
             <Input name="name" placeholder="Nome da ONG" />
             <Input name="email" type="email" placeholder="E-mail" />
             <div>
-              <Input name="password" type="password" placeholder="Senha" />
-              <Input
-                name="confirmPassword"
-                type="password"
-                placeholder="Confirmar senha"
-              />
+              <div>
+                <Input name="password" type="password" placeholder="Senha" />
+              </div>
+              <div>
+                <Input
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="Confirmar senha"
+                />
+              </div>
             </div>
             <Input name="whatsapp" placeholder="WhatsApp" />
             <Input name="address" placeholder="Endereço" />
