@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
+import { promisify } from 'util';
 
 import User from '../models/User';
 import authConfig from '../../config/auth';
@@ -29,10 +30,18 @@ class SessionController {
 
     const { id, name } = user;
 
+    const token = jwt.sign({ id, name, email }, authConfig.secret, {
+      expiresIn: authConfig.expiresIn,
+    });
+
+    const decoded = await promisify(jwt.verify)(token, authConfig.secret);
+
     return res.json({
-      token: jwt.sign({ id, name, email }, authConfig.secret, {
-        expiresIn: authConfig.expiresIn,
-      }),
+      token,
+      name,
+      expireAt: decoded.exp,
+      logout: false,
+      expired: false,
     });
   }
 }
