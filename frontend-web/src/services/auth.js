@@ -1,22 +1,32 @@
-import api from './api';
+export const STORAGE_KEY = '@bethehero';
+export const isAuthenticated = () => {
+  const current = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
-export const TOKEN_KEY = '@bethehero/token';
-export const isAuthenticated = async () => {
-  if (localStorage.getItem(TOKEN_KEY) !== null) {
-    try {
-      const { data } = await api.get('/test');
-
-      return { isAuth: true, data };
-    } catch (err) {
-      return false;
-    }
-  } else {
+  if (current.logout === true) {
     return false;
   }
+  if (new Date() < current.expireAt) {
+    return true;
+  }
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({ ...current, expired: true })
+  );
+  return false;
 };
-export const login = (token) => {
-  localStorage.setItem(TOKEN_KEY, token);
+export const login = (token, name, expireAt) => {
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      token,
+      name,
+      logout: false,
+      expired: false,
+      expireAt,
+    })
+  );
 };
+
 export const logout = () => {
-  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(STORAGE_KEY);
 };
