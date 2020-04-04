@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FiLogIn } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
-import { isAuthenticated } from '../../services/auth';
+import { login } from '../../services/auth';
 import api from '../../services/api';
 
 import { Container, FormLogon } from './styles';
@@ -21,20 +21,13 @@ const schema = Yup.object().shape({
 });
 
 export default function Logon() {
-  const history = useHistory();
-  const [loading, setLoading] = useState(true);
+  const { push, action } = useHistory();
 
   useEffect(() => {
-    (async () => {
-      const isAuth = await isAuthenticated();
-
-      if (isAuth) {
-        return history.push('/dashboard');
-      }
-
-      return setLoading(false);
-    })();
-  }, [history]);
+    if (action === 'REPLACE') {
+      toast.error('Sua sessão expirou 😕');
+    }
+  }, []);
 
   async function handleSubmit({ email, password }) {
     try {
@@ -43,9 +36,9 @@ export default function Logon() {
         password,
       });
 
-      localStorage.setItem('@bethehero/token', data.token);
+      login(data.token, data.name, data.expireAt);
 
-      history.push('/dashboard');
+      push('/dashboard');
     } catch (err) {
       toast.error('Parece que algo deu errado, por favor, tente novamente 😕');
     }
@@ -53,30 +46,28 @@ export default function Logon() {
 
   return (
     <Container>
-      {!loading && (
-        <>
-          <FormLogon>
-            <img src={logo} alt="Logo do Be The Hero" />
+      <>
+        <FormLogon>
+          <img src={logo} alt="Logo do Be The Hero" />
 
-            <Form schema={schema} onSubmit={handleSubmit}>
-              <h1>Faça seu logon</h1>
+          <Form schema={schema} onSubmit={handleSubmit}>
+            <h1>Faça seu logon</h1>
 
-              <Input name="email" type="text" placeholder="Seu e-mail" />
-              <Input name="password" type="password" placeholder="Sua senha" />
-              <button className="button" type="submit">
-                Entrar
-              </button>
+            <Input name="email" type="text" placeholder="Seu e-mail" />
+            <Input name="password" type="password" placeholder="Sua senha" />
+            <button className="button" type="submit">
+              Entrar
+            </button>
 
-              <Link className="back-link" to="/register">
-                <FiLogIn color="#e02041" size={16} />
-                Não tenho cadastro
-              </Link>
-            </Form>
-          </FormLogon>
+            <Link className="back-link" to="/register">
+              <FiLogIn color="#e02041" size={16} />
+              Não tenho cadastro
+            </Link>
+          </Form>
+        </FormLogon>
 
-          <img src={heroesImg} alt="Heróis" />
-        </>
-      )}
+        <img src={heroesImg} alt="Heróis" />
+      </>
     </Container>
   );
 }

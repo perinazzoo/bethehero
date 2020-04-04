@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
-import { isAuthenticated } from '../../services/auth';
 import api from '../../services/api';
 
 import { Container } from './styles';
@@ -29,19 +28,6 @@ const schema = Yup.object().shape({
 
 export default function SignUp() {
   const history = useHistory();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    (async () => {
-      const isAuth = await isAuthenticated();
-
-      if (isAuth) {
-        return history.push('/dashboard');
-      }
-
-      return setLoading(false);
-    })();
-  }, [history]);
 
   async function handleSubmit({
     name,
@@ -69,47 +55,45 @@ export default function SignUp() {
 
   return (
     <Container>
-      {!loading && (
-        <div>
-          <section>
-            <img src={logo} alt="Logo do Be The Hero" />
+      <div>
+        <section>
+          <img src={logo} alt="Logo do Be The Hero" />
 
-            <h1>Cadastro</h1>
-            <p>
-              Faça seu cadastro, entre na plataforma e ajude pessoas a
-              encontrarem os casos da sua ONG.
-            </p>
+          <h1>Cadastro</h1>
+          <p>
+            Faça seu cadastro, entre na plataforma e ajude pessoas a encontrarem
+            os casos da sua ONG.
+          </p>
 
-            <Link className="back-link" to="/">
-              <FiArrowLeft color="#e02041" size={16} />
-              Já tenho uma conta
-            </Link>
-          </section>
+          <Link className="back-link" to="/">
+            <FiArrowLeft color="#e02041" size={16} />
+            Já tenho uma conta
+          </Link>
+        </section>
 
-          <Form schema={schema} onSubmit={handleSubmit}>
-            <Input name="name" placeholder="Nome da ONG" />
-            <Input name="email" type="email" placeholder="E-mail" />
+        <Form schema={schema} onSubmit={handleSubmit}>
+          <Input name="name" placeholder="Nome da ONG" />
+          <Input name="email" type="email" placeholder="E-mail" />
+          <div>
             <div>
-              <div>
-                <Input name="password" type="password" placeholder="Senha" />
-              </div>
-              <div>
-                <Input
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="Confirmar senha"
-                />
-              </div>
+              <Input name="password" type="password" placeholder="Senha" />
             </div>
-            <Input name="whatsapp" placeholder="WhatsApp" />
-            <Input name="address" placeholder="Endereço" />
+            <div>
+              <Input
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirmar senha"
+              />
+            </div>
+          </div>
+          <Input name="whatsapp" placeholder="WhatsApp" />
+          <Input name="address" placeholder="Endereço" />
 
-            <button type="submit" className="button">
-              Cadastrar
-            </button>
-          </Form>
-        </div>
-      )}
+          <button type="submit" className="button">
+            Cadastrar
+          </button>
+        </Form>
+      </div>
     </Container>
   );
 }
