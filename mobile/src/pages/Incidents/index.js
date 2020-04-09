@@ -1,7 +1,8 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
+import Mailer from 'react-native-mail';
 
 import logoImg from '../../assets/logo.png';
 
@@ -22,12 +23,30 @@ import {
 
 export default function Incidents() {
   const { goBack } = useNavigation();
+  const message =
+    'Olá AMIGAN! Estou entrando em contato pois gostaria de ajudar no caso "Cachorro atropelado". Poderia me passar mais informações de como contribuir?';
 
   function handleNavigate() {
     goBack();
   }
 
-  function sendMail() {}
+  function sendMessage() {
+    Linking.openURL(`whatsapp://send?text=${message}&phone=+5555999874139`);
+  }
+
+  function sendMail() {
+    Mailer.mail(
+      {
+        subject: 'Herói do caso: Cachorro atropelado',
+        recipients: ['gabrielperinazo@gmail.com'],
+        body: message,
+        isHTML: false,
+      },
+      () => {
+        //
+      }
+    );
+  }
 
   return (
     <Container>
@@ -57,7 +76,7 @@ export default function Incidents() {
         <DescriptionHero>Entre em contato:</DescriptionHero>
 
         <Actions>
-          <Action onPress={() => {}}>
+          <Action onPress={sendMessage}>
             <ActionText>WhatsApp</ActionText>
           </Action>
           <Action onPress={sendMail}>
