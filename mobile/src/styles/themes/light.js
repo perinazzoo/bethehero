@@ -8,7 +8,6 @@ export default {
 
     textFirst: '#13131A',
     textSecond: '#737380',
-    textThird: '#b8bac1',
 
     border: '#41414d',
   },

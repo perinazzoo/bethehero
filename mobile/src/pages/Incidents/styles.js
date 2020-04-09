@@ -34,8 +34,7 @@ export const Property = styled.Text`
 export const Value = styled.Text`
   margin: 8px;
   font-size: 15px;
-  color: ${({ theme }) =>
-    theme.title === 'light' ? theme.colors.textSecond : theme.colors.textThird};
+  color: ${({ theme }) => theme.colors.textSecond};
 `;
 
 export const ContactBox = styled.View`
@@ -45,7 +44,7 @@ export const ContactBox = styled.View`
 `;
 
 export const TitleHero = styled.Text`
-  color: ${({ theme }) => theme.colors.textFirst}
+  color: ${({ theme }) => theme.colors.textFirst};
   font-weight: bold;
   font-size: 20px;
 `;

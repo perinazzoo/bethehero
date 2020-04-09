@@ -17,8 +17,7 @@ export const Logo = styled.Image``;
 
 export const HeaderCount = styled.Text`
   font-size: 15px;
-  color: ${({ theme }) =>
-    theme.title === 'light' ? theme.colors.textSecond : theme.colors.textThird};
+  color: ${({ theme }) => theme.colors.textSecond};
 `;
 
 export const HeaderCountBold = styled.Text`
@@ -60,8 +59,7 @@ export const Property = styled.Text`
 export const Value = styled.Text`
   margin: 8px 0 24px;
   font-size: 15px;
-  color: ${({ theme }) =>
-    theme.title === 'light' ? theme.colors.textSecond : theme.colors.textThird};
+  color: ${({ theme }) => theme.colors.textSecond};
 `;
 
 export const Button = styled(TouchableOpacity)`

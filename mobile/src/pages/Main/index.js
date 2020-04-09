@@ -1,8 +1,11 @@
-import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
+import api from '../../services/api';
+
 import logoImg from '../../assets/logo.png';
+import LogoImg from '../../assets/Logo.png';
 
 import {
   Container,
@@ -22,17 +25,48 @@ import {
 
 export default function Main() {
   const { navigate } = useNavigation();
+  const { params } = useRoute();
+  const [incidents, setIncidents] = useState([]);
+  const [incidentSize, setIncidentSize] = useState(0);
 
-  function handleNavigate() {
-    navigate('Incidents');
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data, headers } = await api.get('/incidents');
+
+        const formattedData = data.map((item) => {
+          return {
+            ...item,
+            id: String(item.id),
+            ong: { ...item.ong, name: item.ong.name.toUpperCase() },
+            value: Intl.NumberFormat('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            }).format(item.value),
+          };
+        });
+
+        setIncidents(formattedData);
+        setIncidentSize(headers['x-total-count']);
+      } catch (err) {
+        //
+      }
+    })();
+  }, []);
+
+  function handleNavigate(
+    { title, description, value },
+    { name, email, whatsapp }
+  ) {
+    navigate('Incidents', { name, email, whatsapp, title, description, value });
   }
 
   return (
     <Container>
       <Header>
-        <Logo source={logoImg} />
+        <Logo source={params.theme === 'light' ? logoImg : LogoImg} />
         <HeaderCount>
-          Total de <HeaderCountBold>0 casos.</HeaderCountBold>
+          Total de <HeaderCountBold>{incidentSize} casos.</HeaderCountBold>
         </HeaderCount>
       </Header>
 
@@ -40,23 +74,23 @@ export default function Main() {
       <Description>Escolha um dos casos abaixo e salve o dia.</Description>
 
       <IncidentList
-        data={[1, 2, 3]}
-        keyExtractor={(incident) => String(incident)}
+        data={incidents}
+        keyExtractor={({ id }) => id}
         showsVerticalScrollIndicator={false}
-        renderItem={() => (
+        renderItem={({ item: incident }) => (
           <Incident>
             <Property>ONG:</Property>
-            <Value>APAD</Value>
+            <Value>{incident.ong.name}</Value>
 
             <Property>CASO:</Property>
-            <Value>Cachorro atropelado</Value>
+            <Value>{incident.title}</Value>
 
             <Property>VALOR:</Property>
-            <Value>R$120,00</Value>
+            <Value>{incident.value}</Value>
 
             <Button
               onPress={() => {
-                handleNavigate();
+                handleNavigate(incident, incident.ong);
               }}
             >
               <ButtonText>Ver mais detalhes</ButtonText>

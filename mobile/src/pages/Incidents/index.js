@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Mailer from 'react-native-mail';
 
 import logoImg from '../../assets/logo.png';
@@ -23,22 +23,25 @@ import {
 
 export default function Incidents() {
   const { goBack } = useNavigation();
-  const message =
-    'Olá AMIGAN! Estou entrando em contato pois gostaria de ajudar no caso "Cachorro atropelado". Poderia me passar mais informações de como contribuir?';
+  const { params } = useRoute();
+
+  const message = `Olá ${params.name}! Estou entrando em contato pois gostaria de ajudar no caso "${params.title}". Poderia me passar mais informações de como contribuir?`;
 
   function handleNavigate() {
     goBack();
   }
 
   function sendMessage() {
-    Linking.openURL(`whatsapp://send?text=${message}&phone=+5555999874139`);
+    Linking.openURL(
+      `whatsapp://send?text=${message}&phone=+55${params.whatsapp}`
+    );
   }
 
   function sendMail() {
     Mailer.mail(
       {
-        subject: 'Herói do caso: Cachorro atropelado',
-        recipients: ['gabrielperinazo@gmail.com'],
+        subject: `Herói do caso: ${params.title}`,
+        recipients: [params.email],
         body: message,
         isHTML: false,
       },
@@ -60,13 +63,16 @@ export default function Incidents() {
 
       <Incident>
         <Property first>ONG:</Property>
-        <Value>APAD</Value>
+        <Value>{params.name}</Value>
 
         <Property>CASO:</Property>
-        <Value>Cachorro atropelado</Value>
+        <Value>{params.title}</Value>
+
+        <Property>DESCRIÇÃO:</Property>
+        <Value>{params.description}</Value>
 
         <Property>VALOR:</Property>
-        <Value>R$120,00</Value>
+        <Value>{params.value}</Value>
       </Incident>
 
       <ContactBox>
