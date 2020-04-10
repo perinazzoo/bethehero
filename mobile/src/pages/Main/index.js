@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -23,24 +23,21 @@ export default function Main() {
   const { navigate } = useNavigation();
   const { incidentsCountChange, incidentsCount } = useContext(Context);
   const [incidents, setIncidents] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [empty, setEmpty] = useState(true);
 
-  async function loadIncidents() {
+  async function loadIncidents(p) {
     try {
-      if (loading) {
-        throw new Error();
+      if (empty) {
+        setLoading(true);
       }
-
-      if (incidentsCount > 0 && incidents.length === incidentsCount) {
-        throw new Error();
-      }
-
-      setLoading(true);
 
       const { data, headers } = await api.get('/incidents', {
-        params: { page },
+        params: {
+          page: p,
+        },
       });
 
       const formattedData = data.map((item) => {
@@ -55,20 +52,59 @@ export default function Main() {
         };
       });
 
-      setIncidents([...incidents, ...formattedData]);
-      incidentsCountChange(headers['x-total-count']);
-      setPage(page + 1);
-      setEmpty(false);
+      if (p === 1) {
+        setIncidents(formattedData);
+        setPage(p);
+        incidentsCountChange(headers['x-total-count']);
+        return setEmpty(false);
+      }
+
+      setPage(p);
+      return setIncidents([...incidents, ...formattedData]);
     } catch (err) {
-      //
+      return Alert.alert(
+        'Oops 😕!',
+        'Sentimos muito, algo deu errado.',
+        [
+          {
+            text: 'Vamos tentar novamente!',
+            onPress: () => loadIncidents(1),
+          },
+        ],
+        {
+          cancelable: false,
+        }
+      );
     } finally {
       setLoading(false);
+      setRefresh(false);
     }
   }
 
   useEffect(() => {
-    loadIncidents();
+    loadIncidents(page);
   }, []);
+
+  function loadMore() {
+    if (loading || refresh) {
+      return;
+    }
+
+    if (incidentsCount > 0 && incidents.length === incidentsCount) {
+      return;
+    }
+
+    setLoading(true);
+
+    const pageNumber = page + 1;
+
+    loadIncidents(pageNumber);
+  }
+
+  async function refreshList() {
+    setRefresh(true);
+    loadIncidents(1);
+  }
 
   function handleNavigate({
     title,
@@ -88,7 +124,9 @@ export default function Main() {
         data={incidents}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
-        onEndReached={loadIncidents}
+        onRefresh={refreshList}
+        refreshing={refresh}
+        onEndReached={loadMore}
         onEndReachedThreshold={0.3}
         empty={empty}
         renderItem={({ item: incident }) => (
