@@ -92,7 +92,7 @@ export default function Main() {
         onEndReachedThreshold={0.3}
         empty={empty}
         renderItem={({ item: incident }) => (
-          <Incident>
+          <Incident style={{ elevation: 1 }}>
             <Property>ONG:</Property>
             <Value>{incident.ong.name}</Value>
 
@@ -115,7 +115,7 @@ export default function Main() {
       />
       {loading && (
         <ActivityIndicator
-          size="small"
+          size={empty ? 'large' : 'small'}
           color="#E02041"
           style={{ marginVertical: 6 }}
         />

@@ -3,11 +3,16 @@ import { TouchableOpacity } from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
-  padding: 48px 24px 0;
+  padding: 24px 24px 0;
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
+export const ScrollableView = styled.ScrollView`
+  flex: 1;
+`;
+
 export const Incident = styled.View`
+  flex: 1;
   padding: 24px;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.secondary};
@@ -29,6 +34,7 @@ export const Value = styled.Text`
 `;
 
 export const ContactBox = styled.View`
+  margin-bottom: 16px;
   padding: 24px;
   background-color: ${({ theme }) => theme.colors.secondary};
   border-radius: 8px;

@@ -5,6 +5,7 @@ import Mailer from 'react-native-mail';
 
 import {
   Container,
+  ScrollableView,
   Incident,
   Property,
   Value,
@@ -43,35 +44,37 @@ export default function Incidents() {
 
   return (
     <Container>
-      <Incident>
-        <Property first>ONG:</Property>
-        <Value>{params.name}</Value>
+      <ScrollableView showsVerticalScrollIndicator={false}>
+        <Incident>
+          <Property first>ONG:</Property>
+          <Value>{params.name}</Value>
 
-        <Property>CASO:</Property>
-        <Value>{params.title}</Value>
+          <Property>CASO:</Property>
+          <Value>{params.title}</Value>
 
-        <Property>DESCRIÇÃO:</Property>
-        <Value>{params.description}</Value>
+          <Property>DESCRIÇÃO:</Property>
+          <Value>{params.description}</Value>
 
-        <Property>VALOR:</Property>
-        <Value>{params.value}</Value>
-      </Incident>
+          <Property>VALOR:</Property>
+          <Value>{params.value}</Value>
+        </Incident>
 
-      <ContactBox>
-        <TitleHero>Salve o dia!</TitleHero>
-        <TitleHero>Seja o herói desse caso.</TitleHero>
+        <ContactBox>
+          <TitleHero>Salve o dia!</TitleHero>
+          <TitleHero>Seja o herói desse caso.</TitleHero>
 
-        <DescriptionHero>Entre em contato:</DescriptionHero>
+          <DescriptionHero>Entre em contato:</DescriptionHero>
 
-        <Actions>
-          <Action onPress={sendMessage}>
-            <ActionText>WhatsApp</ActionText>
-          </Action>
-          <Action onPress={sendMail}>
-            <ActionText>E-mail</ActionText>
-          </Action>
-        </Actions>
-      </ContactBox>
+          <Actions>
+            <Action onPress={sendMessage}>
+              <ActionText>WhatsApp</ActionText>
+            </Action>
+            <Action onPress={sendMail}>
+              <ActionText>E-mail</ActionText>
+            </Action>
+          </Actions>
+        </ContactBox>
+      </ScrollableView>
     </Container>
   );
 }

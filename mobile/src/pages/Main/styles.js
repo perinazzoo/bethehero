@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
 
 export const Container = styled.View`
@@ -22,7 +22,11 @@ export const Description = styled.Text`
 
 export const IncidentList = styled.FlatList`
   margin-top: 32px;
-  max-height: ${({ empty }) => (empty ? '100px' : '100%')};
+  ${({ empty }) =>
+    empty &&
+    css`
+      max-height: 100px;
+    `}
 `;
 
 export const Incident = styled.View`
