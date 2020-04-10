@@ -22,6 +22,7 @@ export const Description = styled.Text`
 
 export const IncidentList = styled.FlatList`
   margin-top: 32px;
+  max-height: ${({ empty }) => (empty ? '100px' : '100%')};
 `;
 
 export const Incident = styled.View`

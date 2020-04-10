@@ -25,6 +25,7 @@ export default function Main() {
   const [incidents, setIncidents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [empty, setEmpty] = useState(true);
 
   async function loadIncidents() {
     try {
@@ -57,6 +58,7 @@ export default function Main() {
       setIncidents([...incidents, ...formattedData]);
       incidentsCountChange(headers['x-total-count']);
       setPage(page + 1);
+      setEmpty(false);
     } catch (err) {
       //
     } finally {
@@ -88,6 +90,7 @@ export default function Main() {
         showsVerticalScrollIndicator={false}
         onEndReached={loadIncidents}
         onEndReachedThreshold={0.3}
+        empty={empty}
         renderItem={({ item: incident }) => (
           <Incident>
             <Property>ONG:</Property>
