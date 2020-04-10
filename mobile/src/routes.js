@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import PropTypes from 'prop-types';
+import Header from './components/Header';
 
 import Main from './pages/Main';
 import Incidents from './pages/Incidents';
@@ -10,21 +10,17 @@ import Incidents from './pages/Incidents';
 
 const { Navigator, Screen } = createStackNavigator();
 
-export default function Routes({ tema }) {
+export default function Routes() {
   return (
     <NavigationContainer>
-      <Navigator screenOptions={{ headerShown: false }}>
-        <Screen name="Home" component={Main} initialParams={{ theme: tema }} />
-        <Screen
-          name="Incidents"
-          component={Incidents}
-          initialParams={{ theme: tema }}
-        />
+      <Navigator
+        screenOptions={{
+          header: () => <Header />,
+        }}
+      >
+        <Screen name="Home" component={Main} />
+        <Screen name="Incidents" component={Incidents} />
       </Navigator>
     </NavigationContainer>
   );
 }
-
-Routes.propTypes = {
-  tema: PropTypes.string.isRequired,
-};

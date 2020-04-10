@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useEffect, useState, useContext } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import api from '../../services/api';
 
-import logoImg from '../../assets/logo.png';
-import LogoImg from '../../assets/Logo.png';
+import { Context } from '../../contexts/HeaderContext';
 
 import {
   Container,
-  Header,
-  Logo,
-  HeaderCount,
-  HeaderCountBold,
   Title,
   Description,
   IncidentList,
@@ -25,9 +20,8 @@ import {
 
 export default function Main() {
   const { navigate } = useNavigation();
-  const { params } = useRoute();
+  const { incidentsCountChange } = useContext(Context);
   const [incidents, setIncidents] = useState([]);
-  const [incidentSize, setIncidentSize] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -47,29 +41,24 @@ export default function Main() {
         });
 
         setIncidents(formattedData);
-        setIncidentSize(headers['x-total-count']);
+        incidentsCountChange(headers['x-total-count']);
       } catch (err) {
         //
       }
     })();
   }, []);
 
-  function handleNavigate(
-    { title, description, value },
-    { name, email, whatsapp }
-  ) {
+  function handleNavigate({
+    title,
+    description,
+    value,
+    ong: { name, email, whatsapp },
+  }) {
     navigate('Incidents', { name, email, whatsapp, title, description, value });
   }
 
   return (
     <Container>
-      <Header>
-        <Logo source={params.theme === 'light' ? logoImg : LogoImg} />
-        <HeaderCount>
-          Total de <HeaderCountBold>{incidentSize} casos.</HeaderCountBold>
-        </HeaderCount>
-      </Header>
-
       <Title>Bem-vindo!</Title>
       <Description>Escolha um dos casos abaixo e salve o dia.</Description>
 
@@ -90,7 +79,7 @@ export default function Main() {
 
             <Button
               onPress={() => {
-                handleNavigate(incident, incident.ong);
+                handleNavigate(incident);
               }}
             >
               <ButtonText>Ver mais detalhes</ButtonText>

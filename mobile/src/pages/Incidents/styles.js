@@ -3,18 +3,9 @@ import { TouchableOpacity } from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
-  padding: 20px 24px 0;
+  padding: 48px 24px 0;
   background-color: ${({ theme }) => theme.colors.background};
 `;
-
-export const Header = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 48px;
-`;
-
-export const Image = styled.Image``;
 
 export const Incident = styled.View`
   padding: 24px;
