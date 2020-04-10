@@ -28,7 +28,7 @@ export const Incident = styled.View`
   padding: 24px;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.secondary};
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 `;
 
 export const Property = styled.Text`

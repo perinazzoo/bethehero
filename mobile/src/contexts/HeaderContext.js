@@ -7,7 +7,7 @@ function HeaderContext({ children, theme }) {
   const [incidentsCount, setIncidentsCount] = useState(0);
 
   function incidentsCountChange(size) {
-    setIncidentsCount(size);
+    setIncidentsCount(Number(size));
   }
 
   return (

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -20,32 +21,51 @@ import {
 
 export default function Main() {
   const { navigate } = useNavigation();
-  const { incidentsCountChange } = useContext(Context);
+  const { incidentsCountChange, incidentsCount } = useContext(Context);
   const [incidents, setIncidents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+
+  async function loadIncidents() {
+    try {
+      if (loading) {
+        throw new Error();
+      }
+
+      if (incidentsCount > 0 && incidents.length === incidentsCount) {
+        throw new Error();
+      }
+
+      setLoading(true);
+
+      const { data, headers } = await api.get('/incidents', {
+        params: { page },
+      });
+
+      const formattedData = data.map((item) => {
+        return {
+          ...item,
+          id: String(item.id),
+          ong: { ...item.ong, name: item.ong.name.toUpperCase() },
+          value: Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          }).format(item.value),
+        };
+      });
+
+      setIncidents([...incidents, ...formattedData]);
+      incidentsCountChange(headers['x-total-count']);
+      setPage(page + 1);
+    } catch (err) {
+      //
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    (async () => {
-      try {
-        const { data, headers } = await api.get('/incidents');
-
-        const formattedData = data.map((item) => {
-          return {
-            ...item,
-            id: String(item.id),
-            ong: { ...item.ong, name: item.ong.name.toUpperCase() },
-            value: Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
-            }).format(item.value),
-          };
-        });
-
-        setIncidents(formattedData);
-        incidentsCountChange(headers['x-total-count']);
-      } catch (err) {
-        //
-      }
-    })();
+    loadIncidents();
   }, []);
 
   function handleNavigate({
@@ -64,8 +84,10 @@ export default function Main() {
 
       <IncidentList
         data={incidents}
-        keyExtractor={({ id }) => id}
+        keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
+        onEndReached={loadIncidents}
+        onEndReachedThreshold={0.3}
         renderItem={({ item: incident }) => (
           <Incident>
             <Property>ONG:</Property>
@@ -88,6 +110,13 @@ export default function Main() {
           </Incident>
         )}
       />
+      {loading && (
+        <ActivityIndicator
+          size="small"
+          color="#E02041"
+          style={{ marginVertical: 6 }}
+        />
+      )}
     </Container>
   );
 }
