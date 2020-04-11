@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Header from './components/Header';
 
 import Main from './pages/Main';
-import Incidents from './pages/Incidents';
+import Incident from './pages/Incident';
 
 // import { Container } from './styles';
 
@@ -19,7 +19,7 @@ export default function Routes() {
         }}
       >
         <Screen name="Home" component={Main} />
-        <Screen name="Incidents" component={Incidents} />
+        <Screen name="Incident" component={Incident} />
       </Navigator>
     </NavigationContainer>
   );

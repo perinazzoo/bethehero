@@ -17,7 +17,7 @@ import {
   ActionText,
 } from './styles';
 
-export default function Incidents() {
+export default function IncidentPage() {
   const { params } = useRoute();
 
   const message = `Olá ${params.name}! Estou entrando em contato pois gostaria de ajudar no caso "${params.title}". Poderia me passar mais informações de como contribuir?`;

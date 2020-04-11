@@ -53,6 +53,9 @@ export default function Main() {
       });
 
       if (p === 1) {
+        if (incidents.length > 0 && formattedData[0].id === incidents[0].id) {
+          return null;
+        }
         setIncidents(formattedData);
         setPage(p);
         incidentsCountChange(headers['x-total-count']);
@@ -112,7 +115,7 @@ export default function Main() {
     value,
     ong: { name, email, whatsapp },
   }) {
-    navigate('Incidents', { name, email, whatsapp, title, description, value });
+    navigate('Incident', { name, email, whatsapp, title, description, value });
   }
 
   return (
