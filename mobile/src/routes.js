@@ -6,8 +6,6 @@ import Header from './components/Header';
 import Main from './pages/Main';
 import Incident from './pages/Incident';
 
-// import { Container } from './styles';
-
 const { Navigator, Screen } = createStackNavigator();
 
 export default function Routes() {
