@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 
-import { logout } from '../../services/auth';
+import { useAuth } from '../../contexts/AuthContext';
+
 import api from '../../services/api';
-import { Container } from './styles';
 
 import logo from '../../assets/logo.svg';
 
+import { Container } from './styles';
+
 export default function Dashboard() {
-  const history = useHistory();
+  const { logout } = useAuth();
   const [user, setUser] = useState('');
   const [incidents, setIncidents] = useState([]);
 
@@ -26,11 +28,10 @@ export default function Dashboard() {
       } catch ({ response }) {
         if (response.data.error) {
           logout();
-          history.replace('/');
         }
       }
     })();
-  }, [history]);
+  }, []);
 
   async function handleDelete(id) {
     try {
@@ -45,7 +46,6 @@ export default function Dashboard() {
 
   function handleLogout() {
     logout();
-    history.push('/');
     toast('Ah não! Sentiremos saudades ❤️');
   }
 

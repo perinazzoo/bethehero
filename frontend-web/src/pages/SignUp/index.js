@@ -1,15 +1,14 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Form, Input } from '@rocketseat/unform';
-import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
-import api from '../../services/api';
-
-import { Container } from './styles';
+import { useAuth } from '../../contexts/AuthContext';
 
 import logo from '../../assets/logo.svg';
+
+import { Container } from './styles';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('Preencha o campo nome'),
@@ -27,31 +26,7 @@ const schema = Yup.object().shape({
 });
 
 export default function SignUp() {
-  const history = useHistory();
-
-  async function handleSubmit({
-    name,
-    email,
-    password,
-    confirmPassword,
-    whatsapp,
-    address,
-  }) {
-    try {
-      await api.post('/users', {
-        name,
-        email,
-        password,
-        confirmPassword,
-        whatsapp,
-        address,
-      });
-      history.push('/');
-      toast(`yayy! Seja bem-vinda ${name} 🦄`);
-    } catch (err) {
-      toast.error('Parece que algo deu errado, por favor, tente novamente 😕');
-    }
-  }
+  const { handleRegister } = useAuth();
 
   return (
     <Container>
@@ -71,7 +46,7 @@ export default function SignUp() {
           </Link>
         </section>
 
-        <Form schema={schema} onSubmit={handleSubmit}>
+        <Form schema={schema} onSubmit={handleRegister}>
           <Input name="name" placeholder="Nome da ONG" />
           <Input name="email" type="email" placeholder="E-mail" />
           <div>

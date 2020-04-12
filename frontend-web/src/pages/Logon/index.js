@@ -5,13 +5,12 @@ import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
-import { login } from '../../services/auth';
-import api from '../../services/api';
-
-import { Container, FormLogon } from './styles';
+import { useAuth } from '../../contexts/AuthContext';
 
 import logo from '../../assets/logo.svg';
 import heroesImg from '../../assets/heroes.png';
+
+import { Container, FormLogon } from './styles';
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -21,28 +20,14 @@ const schema = Yup.object().shape({
 });
 
 export default function Logon() {
-  const { push, action } = useHistory();
+  const { handleLogin } = useAuth();
+  const { action } = useHistory();
 
   useEffect(() => {
     if (action === 'REPLACE') {
       toast.error('Sua sessão expirou 😕');
     }
-  }, []);
-
-  async function handleSubmit({ email, password }) {
-    try {
-      const { data } = await api.post('/sessions', {
-        email,
-        password,
-      });
-
-      login(data.token, data.name, data.expireAt);
-
-      push('/dashboard');
-    } catch (err) {
-      toast.error('Parece que algo deu errado, por favor, tente novamente 😕');
-    }
-  }
+  }, [action]);
 
   return (
     <Container>
@@ -50,7 +35,7 @@ export default function Logon() {
         <FormLogon>
           <img src={logo} alt="Logo do Be The Hero" />
 
-          <Form schema={schema} onSubmit={handleSubmit}>
+          <Form schema={schema} onSubmit={handleLogin}>
             <h1>Faça seu logon</h1>
 
             <Input name="email" type="text" placeholder="Seu e-mail" />
