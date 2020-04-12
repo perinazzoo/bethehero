@@ -10,11 +10,12 @@ class IncidentsController {
       page = 1;
     }
 
-    const count = await Incident.count();
+    const count = await Incident.count({ where: { deleted_at: null } });
 
     res.header('X-Total-Count', count);
 
     const incidents = await Incident.findAll({
+      where: { deleted_at: null },
       order: [['createdAt', 'DESC']],
       limit: 5,
       offset: (page - 1) * 5,
