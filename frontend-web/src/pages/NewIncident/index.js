@@ -1,13 +1,15 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import { Form, Input, Textarea } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
-import { logout } from '../../services/auth';
+import { useAuth } from '../../contexts/AuthContext';
 
+import history from '../../services/history';
 import api from '../../services/api';
+
 import logo from '../../assets/logo.svg';
 
 import { Container } from './styles';
@@ -19,7 +21,7 @@ const schema = Yup.object().shape({
 });
 
 export default function NewIncident() {
-  const history = useHistory();
+  const { logout } = useAuth();
 
   async function handleSubmit({ title, description, value }) {
     try {
@@ -33,7 +35,6 @@ export default function NewIncident() {
     } catch ({ response }) {
       if (response.data.error) {
         logout();
-        return history.replace('/');
       }
       return toast.error(
         'Parece que algo deu errado, por favor, tente novamente 😕'
