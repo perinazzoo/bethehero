@@ -27,7 +27,7 @@ class UserController {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    const user = await User.create({
+    await User.create({
       name,
       email,
       password,
@@ -35,7 +35,7 @@ class UserController {
       address,
     });
 
-    return res.json(user);
+    return res.json();
   }
 
   async update(req, res) {
