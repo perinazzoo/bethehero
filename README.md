@@ -29,17 +29,17 @@ Esta é uma Aplicação onde ONGs podem se cadastrar, adicionar e remover "casos
     </tr>
     <tr>
       <td>Context API</td>
-      <td>Temas Dark e White</td>
+      <td>Context API</td>
       <td>Yup para validação</td>
     </tr>
     <tr>
       <td>Redirect em rotas protegidas</td>
-      <td>O tema se adapta à aparência do smartphone</td>
+      <td>Temas Dark e White</td>
       <td></td>
     </tr>
     <tr>
       <td>Yup para validação dos inputs</td>
-      <td></td>
+      <td>O tema se adapta à aparência do smartphone</td>
       <td></td>
     </tr>
   </tbody>
