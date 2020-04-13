@@ -13,7 +13,7 @@ Este projeto utiliza o Gitmoji para padronização de commits, saiba o que cada 
 
 Este projeto foi desenvolvido durante a Semana Omnistack da Rocketseat e implementado por mim.
 
-Esta é uma Aplicação onde ONGs podem se cadastrar, adicionar e remover "casos" com título, descrição e valor e os usuários, pelo APP mobile, poderão listar esses casos.
+Esta é uma Aplicação onde ONGs podem se cadastrar, adicionar e remover "casos" com título, descrição e valor. Os usuários, pelo APP mobile, poderão listar esses casos.
 
 ## :rocket: Implementações
 
