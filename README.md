@@ -5,6 +5,8 @@ BeTheHero
 :two_hearts: App para ajudar ONGs na divulgação de "casos"
 </blockquote>
 
+Este projeto utiliza o Gitmoji para padronização de commits, saiba o que cada emoji significa em: https://gitmoji.carloscuesta.me/
+
 <img src="./.github/1.png" />
 
 ## :mag: Sobre o projeto
