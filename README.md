@@ -46,6 +46,8 @@ Esta é uma Aplicação onde ONGs podem se cadastrar, adicionar e remover "casos
     </tr>
     <tr>
       <td>Yup para validação dos inputs</td>
+      <td></td>
+      <td></td>
     </tr>
   </tbody>
 </table>
