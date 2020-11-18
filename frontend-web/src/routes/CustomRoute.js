@@ -7,16 +7,16 @@ import { useAuth } from '../contexts/AuthContext';
 export default function CustomRoute({ isPrivate, component, path, exact }) {
   const { authenticated, loading } = useAuth();
 
+  if (loading) {
+    return null;
+  }
+
   if (isPrivate && !authenticated) {
     return <Redirect to="/" />;
   }
 
   if (!isPrivate && authenticated) {
     return <Redirect to="/dashboard" />;
-  }
-
-  if (loading) {
-    return null;
   }
 
   return <Route exact={exact} path={path} component={component} />;
